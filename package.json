@@ -1,0 +1,52 @@
+{
+  "name": "wheel-of-fortune",
+  "version": "1.0.0",
+  "description": "Inspired from the famous game.",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielrosset/wheel-of-fortune.git"
+  },
+  "keywords": [
+    "wheel",
+    "roue",
+    "fortune",
+    "game",
+    "jeu"
+  ],
+  "author": "Gabriel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielrosset/wheel-of-fortune/issues"
+  },
+  "homepage": "https://github.com/gabrielrosset/wheel-of-fortune#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.5.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-filter": "^5.0.1",
+    "gulp-imagemin": "^4.0.0",
+    "gulp-inject": "^4.3.0",
+    "gulp-less": "^3.3.2",
+    "gulp-livereload": "^3.8.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-print": "^2.0.1",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "image-min": "^0.3.2",
+    "konva": "^1.7.6",
+    "run-sequence": "^2.2.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^10.0.3"
+  }
+}
