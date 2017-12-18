@@ -23,6 +23,7 @@ args         = require('yargs').argv;
 
 // Set constants
 // --------------------------------
+var browserRun = args.run == 0 ? false : true;
 var source = {
     css: [
       'less/*.less',
@@ -59,16 +60,20 @@ var destFolders = [
 gulp.task('default', ['serve']);
 
 gulp.task('serve', ['clean'], function(){
-    runSequence(
-    [
+    let build = [
         'serve:css',
         'serve:js_vendors',
         'serve:js_app',
         'serve:img',
         'serve:font',
-    ],
-    'browser-sync',
-    'serve:watch'
+    ];
+    let runWatch = (!browserRun) ? [] : [
+        'browser-sync',
+        'serve:watch'
+    ];
+    runSequence(
+        build,
+        ...runWatch
     );
 });
 
