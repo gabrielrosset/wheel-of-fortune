@@ -43,6 +43,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "image-min": "^0.3.2",
+    "jquery": "^3.2.1",
     "konva": "^1.7.6",
     "run-sequence": "^2.2.0",
     "vinyl-buffer": "^1.0.0",

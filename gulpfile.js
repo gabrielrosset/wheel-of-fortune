@@ -34,6 +34,7 @@ var source = {
     ],
     js_vendors: [
       'node_modules/konva/konva.min.js',
+      'node_modules/jquery/dist/jquery.min.js',
     ],
     img: [
       'img/**/*.+(jpg|jpeg|png|gif|ico|svg)'
