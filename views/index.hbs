@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{{__ 'La roue de la fortune'}}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+  <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+  <link rel="stylesheet" href="app/css/style.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <script src="app/js/vendors.js"></script>
+  <script src="app/js/app.js" defer></script>
+</head>
+<body>
+  <h1>{{{__ 'La roue de la fortune'}}}</h1>
+<script type="text/javascript">
+  var guessWords = {{ toJSON cluesBank }};
+  var labels = {{ toJSON labels }};
+</script>
+  {{> game}}
+  <div id="container"></div>
+</body>
+</html>
