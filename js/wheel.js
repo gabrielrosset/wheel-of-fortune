@@ -4,11 +4,12 @@ var height = window.innerHeight;
 Konva.angleDeg = false;
 var angularVelocity = 6;
 var angularVelocities = [];
-var lastRotation = 0;
-var controlled = false;
+var lastRotation = 0, previousRotation = 0;
+var controlled = false, hasStopped = false;
 var numWedges = 25;
 var angularFriction = 0.2;
 var target, activeWedge, stage, layer, wheel, pointer;
+var anim;
 
 function getAverageAngularVelocity() {
     var total = 0;
@@ -68,7 +69,7 @@ function bind() {
             var atan = Math.atan(y / x);
             var rotation = x >= 0 ? atan : atan + Math.PI;
             var targetGroup = target.getParent();
-
+            hasStopped = false;
             wheel.setRotation(rotation - targetGroup.startRotation - (target.getAngle() / 2));
         }
     }, false);
@@ -80,6 +81,7 @@ function getRandomReward() {
 function addWedge(n) {
     var s = getRandomColor();
     var reward = getRandomReward();
+    var rewardValue = parseInt(reward.replace(/\r?\n|\r/g, ''), 10);
     var r = s[0];
     var g = s[1];
     var b = s[2];
@@ -104,6 +106,7 @@ function addWedge(n) {
         fillRadialGradientEndPoint: 0,
         fillRadialGradientEndRadius: 400,
         fillRadialGradientColorStops: [0, startColor, 1, endColor],
+        reward: rewardValue,
         fill: '#64e9f8',
         fillPriority: 'radial-gradient',
         stroke: '#ccc',
@@ -187,7 +190,17 @@ function animate(frame) {
             shape.setFillPriority('fill');
             activeWedge = shape;
         }
+        // As rotation never stop and still decrease to reach its asymptote we consider it stopped when it varies under 1/10000
+        let wheelMove = lastRotation - previousRotation;
+        let rightRotationStop = wheelMove > 0 && wheelMove < 1/10000;
+        let leftRotationStop = wheelMove < 0 && wheelMove > -1/10000;
+        if(!hasStopped && (rightRotationStop || leftRotationStop)) {
+            hasStopped = true;
+            let game = require('./game.js');
+            game.getWheelScore(intersection.attrs.reward);
+        }
     }
+    previousRotation = lastRotation;
 }
 function init() {
     stage = new Konva.Stage({
@@ -232,11 +245,11 @@ function init() {
     // bind events
     bind();
 
-    var anim = new Konva.Animation(animate, layer);
+    anim = new Konva.Animation(animate, layer);
 
     // wait one second and then spin the wheel
     setTimeout(function() {
         anim.start();
     }, 1000);
 }
-init();
+exports.init = init;
