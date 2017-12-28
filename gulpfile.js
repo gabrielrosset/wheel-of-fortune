@@ -12,6 +12,8 @@ uglify       = require('gulp-uglify'),
 plumber      = require('gulp-plumber'),
 print        = require('gulp-print'),
 rename       = require('gulp-rename'),
+data         = require('gulp-data'),
+gchbs        = require('gulp-compile-handlebars'),
 browserSync  = require('browser-sync').create(),
 browserify   = require('browserify'),
 babelify     = require('babelify'),
@@ -23,38 +25,11 @@ args         = require('yargs').argv;
 
 // Set constants
 // --------------------------------
-var browserRun = args.run == 0 ? false : true;
-var source = {
-    css: [
-      'less/*.less',
-      'less/**/*.less',
-    ],
-    js_app: [
-      'js/app.js'
-    ],
-    js_vendors: [
-      'node_modules/konva/konva.min.js',
-      'node_modules/jquery/dist/jquery.min.js',
-    ],
-    img: [
-      'img/**/*.+(jpg|jpeg|png|gif|ico|svg)'
-    ],
-    font: [
-      'font/**/*.*'
-    ],
-};
-var dest = {
-    css: 'app/css/',
-    js: 'app/js/',
-    img: 'app/img/',
-    font: 'app/font/',
-};
-var destFolders = [
-    dest.css,
-    dest.js,
-    dest.img,
-    dest.font,
-];
+let browserRun = args.run == 0 ? false : true;
+let config = require('./config');
+let source = config.source;
+let dest = config.dest;
+
 
 // Serve tasks
 // --------------------------------
@@ -67,6 +42,7 @@ gulp.task('serve', ['clean'], function(){
         'serve:js_app',
         'serve:img',
         'serve:font',
+        'serve:html',
     ];
     let runWatch = (!browserRun) ? [] : [
         'browser-sync',
@@ -99,7 +75,7 @@ gulp.task('serve:js_vendors', function () {
 });
 
 gulp.task('serve:js_app', function() {
-  return browserify({ entries: source.js_app, debug: true })
+  return browserify({ entries: source.js, debug: true })
     .transform('babelify')
     .bundle()
     .on('error', function(error) {
@@ -126,7 +102,30 @@ gulp.task('serve:font', function(){
 
 });
 
+gulp.task('serve:html', function () {
+    let strings = require(source.strings);
+    let helpers = require(source.helpers);
+    options = {
+        batch : source.partials,
+        helpers: helpers.commonFunctions,
+    };
+
+    return gulp.src(source.template)
+        .pipe(data(function(file) {
+            return require(source.strings);
+        }))
+        .pipe(gchbs(strings, options))
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('clean', function() {
+    let destFolders = [
+        dest.css,
+        dest.js,
+        dest.img,
+        dest.font,
+    ];
     return del(destFolders, {
         force: true
     });
