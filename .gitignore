@@ -36,14 +36,8 @@ build/Release
 node_modules/
 jspm_packages/
 
-<<<<<<< HEAD
-# Build directories
-app/js/*.map
-=======
 # Build directories and files
-app/
-index.html
->>>>>>> master
+app/js/*.map
 
 # Typescript v1 declaration files
 typings/
